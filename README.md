@@ -25,5 +25,5 @@ prepend_keymap = [
  - Press `c` `p` to display the prompt.
  - Type any yazi command. 
  - Multiple words should be placed in double quotes. e.g. `shell "ls -l | less" --block --confirm`
- - flags can be assigned values either with equals or space. e.g. `rename --empty=stem` or `rename --empty stem`
+ - Flags can be assigned values either with equals or space. e.g. `rename --empty=stem` or `rename --empty stem`
  
