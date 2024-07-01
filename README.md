@@ -1,4 +1,4 @@
-# cmd_prompt.yazi
+# command.yazi
 
 A Yazi plugin that displays a command prompt for yazi commands.
 
@@ -15,7 +15,7 @@ git clone https://github.com/KKV9/cmd_prompt.yazi.git ~/.config/yazi/plugins/cmd
 ```toml
 [[manager.prepend_keymap]]
 on   = [ "c", "p" ]
-run  = "plugin cmd_prompt"
+run  = "plugin command"
 desc = "Yazi command prompt"
 ```
 
