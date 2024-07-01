@@ -5,7 +5,7 @@ A Yazi plugin that displays a command prompt for yazi commands.
 ## Install
 
 ```bash
-git clone https://github.com/KKV9/cmd_prompt.yazi.git ~/.config/yazi/plugins/cmd_prompt.yazi
+git clone https://github.com/KKV9/command.yazi.git ~/.config/yazi/plugins/command.yazi
 ```
 
 ## Usage
