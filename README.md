@@ -13,13 +13,10 @@ git clone https://github.com/KKV9/cmd_prompt.yazi.git ~/.config/yazi/plugins/cmd
 - Add this to your `keymap.toml`:
 
 ```toml
-[manager]
-prepend_keymap = [
-  { on = [
-    "c",
-    "p",
-  ], run = "plugin cmd_prompt", desc = "Yazi command prompt" },
-]
+[[manager.prepend_keymap]]
+on   = [ "c", "p" ]
+run  = "plugin cmd_prompt"
+desc = "Yazi command prompt"
 ```
 
  - Press `c` `p` to display the prompt.
