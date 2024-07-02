@@ -67,7 +67,7 @@ return {
 			arrow = {},
 			inspect = {},
 			cancel = {},
-			plugin = {},
+			plugin = { "--args" },
 			move = { "--in-operating" },
 			backword = {},
 			forward = { "--end-of-word" },
