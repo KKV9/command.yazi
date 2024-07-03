@@ -1,34 +1,25 @@
+-- Function to check if flag is valid
+local function is_flag_in_allowed(test_flag, allowed_list)
+	for _, flag in ipairs(allowed_list) do
+		if flag == test_flag then
+			return true
+		end
+	end
+	return false
+end
+
+-- Function to send error notifications
+local function notify_error(message)
+	ya.notify({
+		title = "Yazi Command",
+		content = message,
+		level = "warn",
+		timeout = 5,
+	})
+end
+
 return {
 	entry = function()
-		-- Table to store parsed parameters and flags
-		local params = {}
-
-		-- Function to set a flag in the params table
-		local function set_flag(name, value)
-			-- Remove '--' prefix from the flag and set it in params
-			params[name:gsub("%-%-", "")] = value or true
-		end
-
-		-- Function to check if flag is valid
-		local function is_flag_in_allowed(test_flag, allowed_list)
-			for _, flag in ipairs(allowed_list) do
-				if flag == test_flag then
-					return true
-				end
-			end
-			return false
-		end
-
-		-- Function to send error notifications
-		local function notify_error(message)
-			ya.notify({
-				title = "Yazi Command",
-				content = message,
-				level = "warn",
-				timeout = 5,
-			})
-		end
-
 		-- Define all commands and their flags
 		local command_flags = {
 			escape = { "--all", "--find", "--visual", "--select", "--filter", "--search" },
@@ -95,42 +86,43 @@ return {
 
 		-- Extract the main command (the first word before any space)
 		local main_command = command:match("^[^%s]+") or ""
-
+		-- Extract the secondary command
+		-- (First and last double quotes in the string or
+		-- the first word after a space that is not a flag --)
+		local secondary_command = command:match('%s+"(.-)"%s*$') or command:match("%s+([^%s-][^%s]*)") or ""
 		-- Get the list of allowed flags for this command
 		local allowed_flags = command_flags[main_command]
-
+		-- Store flags along with their arguments
+		local flags = {}
+		local current_flag = nil
 		-- If the command is not valid, display an error and exit
 		if not allowed_flags then
 			notify_error(string.format('Command "%s" is not a valid command', main_command))
 			return
 		end
 
-		-- Extract flags and their values from the command string
-		for flag, value in command:gmatch("(%-%-%S*)%s*=?%s*(%w*)") do
-			-- Split flag if not already separated
-			flag = flag:gsub("%s*", "")
-			if flag:match("=") then
-				flag, value = string.match(flag, "([^=]+)=(.*)")
-			end
-
-			-- Exit if flag is not valid
-			if not is_flag_in_allowed(flag, allowed_flags) then
-				notify_error(string.format("%s is not a valid flag for %s", flag, main_command))
-				return
-			else
-				set_flag(flag, value ~= "" and value or nil)
+		command = command:gsub("=", " "):gsub("'", ""):gsub('".-"', "")
+		for word in command:gmatch("[^%s]+") do
+			if word:match("^%-%-") then
+				if not is_flag_in_allowed(word, allowed_flags) then
+					notify_error(string.format("%s is not a valid flag for %s", word, main_command))
+					return
+				end
+				current_flag = word:sub(3) -- Remove the leading --
+				flags[current_flag] = "yes" -- Initialize the flag in the table
+			elseif current_flag then
+				if flags[current_flag] == "yes" then
+					flags[current_flag] = word
+				else
+					flags[current_flag] = string.format("%s %s", flags[current_flag], word)
+				end
 			end
 		end
 
-		-- Extract the secondary command
-		-- (First and last double quotes in the string or
-		-- the first word after a space that is not a flag)
-		local secondary_command = command:match('%s+"(.-)"%s*$') or command:match("%s+([^%s-][^%s]*)") or ""
-
 		-- Insert the secondary command into params table
-		table.insert(params, tostring(secondary_command))
+		table.insert(flags, tostring(secondary_command))
 
 		-- Execute the main command with the parsed parameters
-		ya.manager_emit(tostring(main_command), params)
+		ya.manager_emit(tostring(main_command), flags)
 	end,
 }
