@@ -71,6 +71,7 @@ return {
 			backspace = { "--under" },
 			kill = {},
 			close_input = {},
+			peek = {},
 		}
 
 		-- Get input from the user with a prompt window
