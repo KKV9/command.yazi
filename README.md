@@ -5,13 +5,15 @@ A Yazi plugin that displays a command prompt for yazi commands.
 ## Install
 
 ```bash
-# With git
+# For Unix platforms
 git clone https://github.com/KKV9/command.yazi.git ~/.config/yazi/plugins/command.yazi
+
+## For Windows
+git clone https://github.com/KKV9/command.yazi.git %AppData%\yazi\config\plugins\command.yazi
+
 # Or with yazi plugin manager
 ya pack -a KKV9/command
 ```
-
-## Usage
 
 - Add this to your `keymap.toml`:
 
@@ -21,6 +23,8 @@ on   = [ "c", "p" ]
 run  = "plugin command"
 desc = "Yazi command prompt"
 ```
+
+## Usage
 
  - Press `c` `p` to display the prompt.
  - Type any yazi command. e.g `select_all`
