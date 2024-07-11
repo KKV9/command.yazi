@@ -71,7 +71,17 @@ return {
 			backspace = { "--under" },
 			kill = {},
 			close_input = {},
-			peek = {},
+			peek = { "--force" },
+			hardlink = { "--follow", "--force" },
+			bulk_rename = {},
+			hover = {},
+			refresh = {},
+      suspend = {},
+			tab_close = {},
+			update_files = {},
+			update_mimetype = {},
+			update_paged = {},
+			update_yanked = {},
 		}
 
 		-- Get input from the user with a prompt window
