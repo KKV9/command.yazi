@@ -42,7 +42,7 @@ return {
 			create = { "--force" },
 			rename = { "--hovered", "--force", "--empty", "--cursor" },
 			copy = {},
-			shell = { "--confirm", "--block", "--orphan" },
+			shell = { "--confirm", "--block", "--orphan", "--interactive" },
 			hidden = {},
 			linemode = {},
 			search = {},
@@ -90,7 +90,7 @@ return {
 		-- Extract the secondary command
 		-- (First and last double quotes in the string or
 		-- the first word after a space that is not a flag --)
-		local secondary_command = command:match('%s+"(.-)"%s*$') or command:match("%s+([^%s-][^%s]*)") or ""
+		local secondary_command = command:match('"(.*)"') or command:match("%s+([^%s-][^%s]*)") or ""
 		-- Get the list of allowed flags for this command
 		local allowed_flags = command_flags[main_command]
 		-- Store flags along with their arguments
@@ -113,9 +113,9 @@ return {
 				flags[current_flag] = "yes" -- Initialize the flag in the table
 			elseif current_flag then
 				if flags[current_flag] == "yes" then
-					flags[current_flag] = word
+					flags[current_flag] = word:gsub("\\%-", "-") -- Allow escaping --
 				else
-					flags[current_flag] = string.format("%s %s", flags[current_flag], word)
+					flags[current_flag] = string.format("%s %s", flags[current_flag], word:gsub("\\%-", "-"))
 				end
 			end
 		end
