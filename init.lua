@@ -32,6 +32,8 @@ return {
 			reveal = {},
 			select = { "--state" },
 			select_all = { "--state" },
+      toggle = { "--state" },
+			toggle_all = { "--state" },
 			visual_mode = { "--unset" },
 			open = { "--interactive", "--hovered" },
 			yank = { "--cut" },
@@ -39,7 +41,7 @@ return {
 			paste = { "--force", "--follow", "--before" },
 			link = { "--relative", "--force" },
 			remove = { "--force", "--permanently", "--hovered" },
-			create = { "--force" },
+			create = { "--force", "--dir" },
 			rename = { "--hovered", "--force", "--empty", "--cursor" },
 			copy = {},
 			shell = { "--confirm", "--block", "--orphan", "--interactive" },
@@ -82,6 +84,7 @@ return {
 			update_mimetype = {},
 			update_paged = {},
 			update_yanked = {},
+      spot = {},
 		}
 
 		-- Get input from the user with a prompt window
