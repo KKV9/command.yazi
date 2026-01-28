@@ -12,13 +12,13 @@ git clone https://github.com/KKV9/command.yazi.git ~/.config/yazi/plugins/comman
 git clone https://github.com/KKV9/command.yazi.git %AppData%\yazi\config\plugins\command.yazi
 
 # Or with yazi plugin manager
-ya pack -a KKV9/command
+ya pkg add KKV9/command
 ```
 
 - Add this to your `keymap.toml`:
 
 ```toml
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on   = [ "c", "p" ]
 run  = "plugin command"
 desc = "Yazi command prompt"
