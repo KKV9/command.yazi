@@ -137,6 +137,6 @@ return {
 		table.insert(flags, tostring(secondary_command))
 
 		-- Execute the main command with the parsed parameters
-		ya.manager_emit(tostring(main_command), flags)
+		ya.mgr_emit(tostring(main_command), flags)
 	end,
 }
