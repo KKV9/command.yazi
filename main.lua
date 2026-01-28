@@ -90,7 +90,7 @@ return {
 		-- Get input from the user with a prompt window
 		local command, event = ya.input({
 			title = "Command:", -- Title of the input prompt
-			position = { "top-center", y = 3, w = 40 }, -- Positioning details
+			pos = { "top-center", y = 3, w = 40 }, -- Positioning details
 		})
 
 		-- Check if the input was cancelled or closed
