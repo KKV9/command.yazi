@@ -1,6 +1,6 @@
 # command.yazi
 
-A Yazi plugin that displays a command prompt for yazi commands.
+A plugin for Yazi that provides a command palette for executing commands interactively.
 
 ## Install
 
@@ -21,15 +21,124 @@ ya pkg add KKV9/command
 [[mgr.prepend_keymap]]
 on   = [ "c", "p" ]
 run  = "plugin command"
-desc = "Yazi command prompt"
+desc = "Open command palette"
 ```
+
 
 ## Usage
 
- - Press `c` `p` to display the prompt.
- - Type any yazi command. e.g `select_all`
- - Parameters are assumed to be flags and default to the value "yes". e.g. `yank --cut` is equivalent to `yank --cut=yes` 
- - Parameters can be assigned values either with an equals or a space. e.g. `rename --empty=stem` or `rename --empty stem`
- - Parameters can be assigned multiple arguments separated by a space. e.g. `plugin example --args arg1 arg2 arg3`
- - Multiple words that are NOT arguments should be placed in double quotes. e.g. `shell "ls -l | less" --block --confirm`
- - Argument values begining with `--` are assumed to be arguments and should be escaped . e.g. use `plugin shell --args=\--block`
+### Basic Usage
+
+1. Press `c` then `p` to open the command palette
+2. Type any Yazi command (e.g., `toggle_all`, `yank`, `rename`)
+3. Press Enter to execute
+
+### Command Syntax
+
+**Simple commands:**
+```
+quit
+open
+yank
+```
+
+**Commands with flags:**
+```
+yank --cut
+toggle --state=on
+remove --force --permanently
+```
+
+**Commands with arguments:**
+```
+cd ~/Downloads
+arrow 5
+```
+
+**Commands with multi-word arguments (use quotes):**
+```
+cd "~/My Documents"
+shell "ls -l | less" --block
+```
+
+### Flag Syntax Rules
+
+**Flags default to "yes":**
+- `yank --cut` is equivalent to `yank --cut=yes`
+- `remove --force` is equivalent to `remove --force=yes`
+
+**Flags can use `=` or space for values:**
+- `rename --empty=stem` (using equals)
+- `rename --empty stem` (using space)
+- Both are valid and equivalent
+
+**Multiple arguments for a single flag:**
+```
+plugin example --something "arg1 arg2 arg3"
+sort --reverse --dir-first
+```
+
+**Escaping `--` in argument values:**
+- If an argument value starts with `--`, escape it with a backslash
+- Example: `plugin shell --args=\--block`
+- This prevents `--block` (a plugin argument) from being interpreted as a yazi command argument
+
+### Complete Examples
+
+```
+# Toggle selection state
+toggle --state=on
+
+# Yank files in cut mode
+yank --cut
+
+# Remove files permanently without confirmation
+remove --force --permanently
+
+# Change directory interactively
+cd --interactive
+
+# Execute shell command with blocking
+shell "btop" --block
+
+# Rename with empty stem and cursor at start
+rename --empty=stem --cursor=start
+
+# Search using fd with custom arguments
+search --via=fd --args=-H
+
+# Create directory with force overwrite
+create --force --dir
+
+# Open file interactively
+open --interactive
+
+# Sort by modified time, reversed, directories first
+sort mtime --reverse --dir-first
+```
+
+## Supported Commands
+
+The plugin validates commands and flags against the current Yazi command set. See the [Yazi keymap documentation](https://yazi-rs.github.io/docs/configuration/keymap/) for a complete list of available commands and their options.
+
+### Common Commands
+
+- `arrow` - Move cursor up/down
+- `cd` - Change directory
+- `copy` - Copy file path/name
+- `create` - Create file/directory
+- `enter` - Enter directory
+- `filter` - Filter files
+- `find` - Find files
+- `hidden` - Toggle hidden files
+- `leave` - Go to parent directory
+- `open` - Open file
+- `paste` - Paste yanked files
+- `quit` - Exit Yazi
+- `remove` - Remove/trash files
+- `rename` - Rename file
+- `search` - Search files
+- `shell` - Execute shell command
+- `sort` - Sort files
+- `toggle` - Toggle file selection
+- `yank` - Yank (copy) files
